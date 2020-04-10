@@ -1,8 +1,13 @@
+
+
+
+
+
 #include<stdio.h>
+#include<string.h>
 #include<stdlib.h>
 #include<unistd.h>
-#include<string.h>
-int cmpfunc (const void * a, const void * b)
+int compf (const void * a, const void * b)
 {
    return ( *(int*)a - *(int*)b );
 }
@@ -10,7 +15,7 @@ int cmpfunc (const void * a, const void * b)
 void sort(int a[],int size, int flag)
 {
 	int i;
-	qsort(a,size, sizeof(int),cmpfunc);
+	qsort(a,size, sizeof(int),compf);
 	if(flag==1)
 	{
 		for(i=size-1;i>=0;i--)
@@ -30,37 +35,38 @@ void sort(int a[],int size, int flag)
 
 int main()
 {
-	int n,max,current,prev,*a,*q1,*q2;
-	int i,total=0,j=0,k=0;
-	int z1,z2,z3,f;
+	int n,max,curr,prev,*a,*q1,*q2;
+	int i, j=0,k=0;
+               int total =0;
+	int f1,f2,f3,f;
 	char buffer[10],invalid[1];
 	
 	write(1,"Enter size of disk: ",strlen("Enter size of disk: "));
-	z1=read(0,buffer,sizeof(buffer));
+	f1=read(0,buffer,sizeof(buffer));
 	max=atoi(buffer);
 	
 	write(1,"Enter number of pending requests: ",strlen("Enter number of pending requests: "));
-	z1=read(0,buffer,sizeof(buffer));
+	f1=read(0,buffer,sizeof(buffer));
 	n=atoi(buffer);
 	
 	
-	write(1,"Enter the current request (Should be less than size of size of disk): ",strlen("Enter the current request (Should be less than size of size of disk): "));
-	z1=read(0,buffer,sizeof(buffer));
-	current=atoi(buffer);
-	if(current>=max || current<=0)
+	write(1,"Enter the curr request (Should be less than size of size of disk): ",strlen("Enter the curr request (Should be less than size of size of disk): "));
+	f1=read(0,buffer,sizeof(buffer));
+	curr=atoi(buffer);
+	if(curr>=max || curr<=0)
 	{
 		write(1,"Invalid request",strlen("Invalid request"));
-		z2=read(0,invalid,1);
+		f2=read(0,invalid,1);
 		return 0;
 	}
 		
 	write(1,"Enter the previous request (Should be less than size of size of disk): ",strlen("Enter the previous request (Should be less than size of size of disk): "));
-	z1=read(0,buffer,sizeof(buffer));
+	f1=read(0,buffer,sizeof(buffer));
 	prev=atoi(buffer);
 	if(prev>=max || prev<=0)
 	{
 		write(1,"Invalid request",strlen("Invalid request"));
-		z2=read(0,invalid,1);
+		f2=read(0,invalid,1);
 		return 0;
 	}
 
@@ -72,15 +78,15 @@ int main()
 	
 	for(i=0;i<n;i++)
 	{
-		z1=read(0,buffer,sizeof(buffer));
+		f1=read(0,buffer,sizeof(buffer));
 		a[i]=atoi(buffer);
 		if(a[i]>=max || a[i]<=0)
 		{
 			write(1,"Invalid request",strlen("Invalid request"));
-			z2=read(0,invalid,1);
+			f2=read(0,invalid,1);
 			return 0;
 		}
-		if(a[i]<current)
+		if(a[i]<curr)
 		{
 			q1[j]=a[i];
 			j++;	
@@ -93,28 +99,28 @@ int main()
 			
 	}
 
-	if(current<prev)
+	if(curr<prev)
 	{
-		printf("%d",current);
+		printf("%d",curr);
 		sort(q1,j,1);
 		printf(" -> 0");
 		sort(q2,k,0);
 		if(k==0)
-			total= current;
+			total= curr;
 		else	
-			total=current+q2[k-1];
+			total=curr+q2[k-1];
         	printf("/nTotal distance moved by disk arm is %d",total);						
 	}
 	else
 	{
-		printf("%d",current);
+		printf("%d",curr);
 		sort(q2,k,0);
 		printf("-> %d",max);
 		sort(q1,j,1);
 		if(j==0)
-			total=max-current;
+			total=max-curr;
 		else	
-			total=max-current+max-q1[0];
+			total=max-curr+max-q1[0];
 		printf("\nTotal distance moved by disk arm is %d",total);
 	}
 	
@@ -124,3 +130,6 @@ int main()
 	free(q2);
 	return 0;
 }
+
+
+
