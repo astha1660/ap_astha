@@ -1,6 +1,5 @@
 #include<stdio.h>
 #include <unistd.h>
-#include <windows.h>
 int main()
 {
 	printf("-------------------------------------------------------");
